@@ -1,31 +1,27 @@
-// Напишите функцию printNumbers - которая принимает число n и выводит в консоль номера от 1 до n и наоборот. Решите задачу через рекурсию.
-// Примечание - функция не должна ничего возвращать. Все что нужно - это вывести числа в консоль через console.log().
-// Пример:
-// printNumbers(3);
-// 1
-// 2
-// 3
-// 2
-// 1
 
-function printNumbers(n, arr = [], init = false) {
-  if (!init) {
-    const MAX = Number(n);
-    for (let i = 1; i <= MAX; i += 1) {
-      arr.push(i);
-    }
-    for (let i = MAX - 1; i > 0; i -= 1) {
-      arr.push(i);
-    }
-    init = true;
-  }
+// Полифил Array.prototype.map
+// Перед выполнение этого задания рекомендовано ознакомиться с документацией метод Array.prototype.map:
+// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+// Напишите полифил метода Array.prototype.map. В теле полифила не используйте никаких методов класса Array или других классов.
+// Используйте только условные операторы и циклы.
+// В полифиле первый аргумент - это массив. Все остальные аргументы такие же как и в том же порядке, что и у одноименного метода. Т.е.:
+// array.map(callback, thisArg)  <=> map(array, callback, thisArg)
+// Примечание: для привязки контекста thisArg можете использовать в начале тела функции следующий фрагмент:
+// if (thisArg) {
+//   callback = callback.bind(thisArg);
+// }
 
-  if (!(arr.length === 0)) {
-    console.log(arr.pop());
-    printNumbers(n, arr, init);
+function map(arr, callback, thisArg) {
+  if (thisArg) {
+    callback = callback.bind(thisArg);
   }
+  const result = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    result[i] = callback(arr[i], i);
+  }
+  return result;
 }
 
 module.exports = {
-  printNumbers,
+  map,
 };
