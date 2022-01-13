@@ -1,51 +1,49 @@
-const { map } = require('../src/index');
+const { filter } = require('../src/index');
 
-
-describe("Тестирование метода Array.prototype.map", () => {
+describe("Тестирование метода Array.prototype.filter", () => {
 	it("Тест 1", () => {
-		const numbers = [1, 2, 3, 4, 5];
-		const result = [2, 4, 6, 8, 10];
+		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
+		const isEven = (x) => x % 2 === 0;
 
-		const getDouble = (x) => 2 * x;
+		expect(filter(numbers, isEven)).toEqual([0, 2]);
 
-		expect(map(numbers, getDouble)).toEqual(result);
-		expect(numbers.map(getDouble)).toEqual(result);
-		expect(numbers).toEqual([1, 2, 3, 4, 5]);
+		expect(numbers.filter(isEven)).toEqual([0, 2]);
+
+		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 
 	it("Тест 2", () => {
-		const numbers = [1, 2, 3, 4, 5];
-		const result = [0, 0, 0, 0, 0];
-		const getZero = (x) => 0;
+		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
+		const isMore = (x, i) => i >= x;
 
-		expect(map(numbers, getZero)).toEqual(result);
-		expect(numbers.map(getZero)).toEqual(result);
-		expect(numbers).toEqual([1, 2, 3, 4, 5]);
+		expect(filter(numbers, isMore)).toEqual([0, 1, 1, 2, 7]);
+
+		expect(numbers.filter(isMore)).toEqual([0, 1, 1, 2, 7]);
+
+		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 
 	it("Тест 3", () => {
-		const numbers = [1, 2, 3, 4, 5];
-		const result = [1, 3, 5, 7, 9];
-		const getItemWithIndex = (x, i) => x + i;
+		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
+		const isUniq = (x, i, l) => l.lastIndexOf(x) === i;
 
-		expect(map(numbers, getItemWithIndex)).toEqual(result);
-		expect(numbers.map(getItemWithIndex)).toEqual(result);
-		expect(numbers).toEqual([1, 2, 3, 4, 5]);
+		expect(filter(numbers, isUniq)).toEqual([5, 0, 1, 2, 7, 9]);
+
+		expect(numbers.filter(isUniq)).toEqual([5, 0, 1, 2, 7, 9]);
+
+		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 
-	it("Тест 3", () => {
-		const numbers = [1, 2, 3, 4, 5];
-		const result = [1001, 1002, 1003, 1004, 1005];
-		const obj = { k: 1000 };
-
-		const getItemWithIndex = function (x, i) {
-			return x + this.k;
+	it("Тест 4", () => {
+		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
+		const obj = { k: 5 };
+		const isMore = function (x) {
+			return this.k > x;
 		};
 
-		expect(map(numbers, getItemWithIndex, obj)).toEqual(result);
-		expect(numbers.map(getItemWithIndex, obj)).toEqual(result);
+		expect(filter(numbers, isMore, obj)).toEqual([1, 0, 1, 1, 2]);
+		expect(numbers.filter(isMore, obj)).toEqual([1, 0, 1, 1, 2]);
 
-		expect(numbers).toEqual([1, 2, 3, 4, 5]);
-		expect(obj).toEqual({ k: 1000 });
+		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 });
