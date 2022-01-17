@@ -1,20 +1,10 @@
-function printNumbers(n, arr = [], init = false) {
-  if (!init) {
-    const MAX = Number(n);
-    for (let i = 1; i <= MAX; i += 1) {
-      arr.push(i);
-    }
-    for (let i = MAX -1; i > 0; i -= 1) {
-      arr.push(i);
-    }
-    init = true;
-  }
+function startsWith(str, searchString, position) {
+  const regExp = new RegExp('\\b' + searchString, 'g');
+  let execResult = regExp.exec(str);
 
-
-  if (!(arr.length === 0)) {
-    console.log(arr.pop());
-    printNumbers(n, arr, init);
-  }
+  return (execResult.index === 0) ? true : false;
 }
+const str = 'Hello world!';
+const searchStr = 'hello';
 
-printNumbers(4);
+console.log(startsWith(str, searchStr));

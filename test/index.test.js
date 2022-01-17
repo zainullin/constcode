@@ -1,49 +1,43 @@
-const { filter } = require('../src/index');
+const { startsWith } = require('../src/index');
 
-describe("Тестирование метода Array.prototype.filter", () => {
+describe("Тестирование метода String.prototype.startWith", () => {
 	it("Тест 1", () => {
-		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
-		const isEven = (x) => x % 2 === 0;
+		const string = "Hello world!";
+		const search = "Hello";
 
-		expect(filter(numbers, isEven)).toEqual([0, 2]);
-
-		expect(numbers.filter(isEven)).toEqual([0, 2]);
-
-		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
+		expect(startsWith(string, search)).toBe(true);
+		expect(string.startsWith(search)).toBe(true);
 	});
 
 	it("Тест 2", () => {
-		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
-		const isMore = (x, i) => i >= x;
+		const string = "Hello world!";
+		const search = "hello";
 
-		expect(filter(numbers, isMore)).toEqual([0, 1, 1, 2, 7]);
-
-		expect(numbers.filter(isMore)).toEqual([0, 1, 1, 2, 7]);
-
-		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
+		expect(startsWith(string, search)).toBe(false);
+		expect(string.startsWith(search)).toBe(false);
 	});
 
 	it("Тест 3", () => {
-		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
-		const isUniq = (x, i, l) => l.lastIndexOf(x) === i;
+		const string = "Hello world!";
+		const search = "Hello";
 
-		expect(filter(numbers, isUniq)).toEqual([5, 0, 1, 2, 7, 9]);
-
-		expect(numbers.filter(isUniq)).toEqual([5, 0, 1, 2, 7, 9]);
-
-		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
+		expect(startsWith(string, search, 2)).toBe(false);
+		expect(string.startsWith(search, 2)).toBe(false);
 	});
 
 	it("Тест 4", () => {
-		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
-		const obj = { k: 5 };
-		const isMore = function (x) {
-			return this.k > x;
-		};
+		const string = "Hello world!";
+		const search = "world";
 
-		expect(filter(numbers, isMore, obj)).toEqual([1, 0, 1, 1, 2]);
-		expect(numbers.filter(isMore, obj)).toEqual([1, 0, 1, 1, 2]);
+		expect(startsWith(string, search)).toBe(false);
+		expect(string.startsWith(search)).toBe(false);
+	});
 
-		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
+	it("Тест 5", () => {
+		const string = "Hello world!";
+		const search = "world";
+
+		expect(startsWith(string, search, 6)).toBe(true);
+		expect(string.startsWith(search, 6)).toBe(true);
 	});
 });

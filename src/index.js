@@ -1,31 +1,31 @@
-// Перед выполнение этого задания рекомендовано ознакомиться с документацией метод Array.prototype.filter:
-// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-// Напишите полифил метода Array.prototype.filter. В теле полифила не используйте никаких методов класса Array или других классов.
+// Перед выполнение этого задания рекомендовано ознакомиться с документацией метод String.prototype.startsWith:
+// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+// Напишите полифил метода String.prototype.startsWith. В теле полифила не используйте никаких методов класса String или других классов.
 // Используйте только условные операторы и циклы.
-// В полифиле первый аргумент - это массив. Все остальные аргументы такие же как и в том же порядке, что и у одноименного метода. Т.е.:
-// array.filter(callback, thisArg)  <=> filter(array, callback, thisArg)
-// callbackFn - Функция-предикат, которая будет вызвана для проверки каждого элемента массива. Если функция возвращает true, то элемент остаётся в массиве, если false, то удаляется.
-// Принимает три аргумента
-// element - Текущий обрабатываемый элемент в массиве.
-// index (Необязательный) - Индекс текущего обрабатываемого элемента в массиве.
-// array (Необязательный) - Обрабатываемый массив, на котором был вызван метод filter().
-// thisArg (Необязательный) - Значение, используемое в качестве this при вызове колбэк-функции callbackFn.
+// В полифиле первый аргумент - это строка. Все остальные аргументы такие же как и в том же порядке, что и у одноименного метода. Т.е.:
+// string.startsWith(searchString, position)  <=> startsWith(string, searchString, position)
+// function includes(...rest) {
+//   const str = rest[0];
+//   const subStr = rest[1];
+//   const position = rest[2] === undefined ? 0 : rest[2];
+//   let pattern = new RegExp('\\b' + subStr, 'g');
+
+//   let matches = false;
+//   while (true) {
+//     matches = pattern.exec(str);
+//     if (matches === null) return false;
+//     if (matches.index >= position) return true;
+//   }
+// }
 
 
-
-function filter(arr, callback, thisArg) {
-  if (thisArg) {
-    callback = callback.bind(thisArg);
-  }
-  const result = [];
-  for (let i = 0; i < arr.length; i += 1) {
-    if (callback(arr[i], i, arr) === true) {
-      result.push(arr[i]);
-    }
-  }
-  return result;
+function startsWith(str, searchString, position = 0) {
+  const regExp = new RegExp(`\\b` + searchString, 'g');
+  const execResult = regExp.exec(str);
+  
+  return ( execResult !== null && execResult.index === position )? true: false;
 }
 
 module.exports = {
-  filter,
+  startsWith,
 };
