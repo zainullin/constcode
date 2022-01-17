@@ -1,31 +1,36 @@
-// Перед выполнение этого задания рекомендовано ознакомиться с документацией метод String.prototype.startsWith:
-// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
-// Напишите полифил метода String.prototype.startsWith. В теле полифила не используйте никаких методов класса String или других классов.
-// Используйте только условные операторы и циклы.
-// В полифиле первый аргумент - это строка. Все остальные аргументы такие же как и в том же порядке, что и у одноименного метода. Т.е.:
-// string.startsWith(searchString, position)  <=> startsWith(string, searchString, position)
-// function includes(...rest) {
-//   const str = rest[0];
-//   const subStr = rest[1];
-//   const position = rest[2] === undefined ? 0 : rest[2];
-//   let pattern = new RegExp('\\b' + subStr, 'g');
+// Напишите метод push для связанного списка по аналогии с методом push у класса Array (у массива).
+// Метод push должен добавить 1 элемент в конец списка.
+// Подсказка: в тестах можно увидеть много подсказок к реализации метода.
+// Примечание: постарайтесь написать метод push самостоятельно.
 
-//   let matches = false;
-//   while (true) {
-//     matches = pattern.exec(str);
-//     if (matches === null) return false;
-//     if (matches.index >= position) return true;
-//   }
-// }
+function createList() {
+  return {
+    head: null,
+    tail: null,
 
+    push(item) {
+      if (this.head === null && this.tail === null){
+        this.head = item;
+        this.tail = item;
+        return
+      }
+      
+      this.tail.next = item;
+      item.prev = this.tail;
+      this.tail = item;
+    },
+  };
+}
 
-function startsWith(str, searchString, position = 0) {
-  const regExp = new RegExp(`\\b` + searchString, 'g');
-  const execResult = regExp.exec(str);
-  
-  return ( execResult !== null && execResult.index === position )? true: false;
+function createItem(value) {
+  return {
+    next: null,
+    prev: null,
+    value,
+  };
 }
 
 module.exports = {
-  startsWith,
+  createItem,
+  createList,
 };

@@ -1,43 +1,58 @@
-const { startsWith } = require('../src/index');
+const { createItem, createList } = require('../src/index');
 
-describe("Тестирование метода String.prototype.startWith", () => {
+describe("Тестирование метода push", () => {
 	it("Тест 1", () => {
-		const string = "Hello world!";
-		const search = "Hello";
+		const list = createList();
+		const item = createItem("item");
 
-		expect(startsWith(string, search)).toBe(true);
-		expect(string.startsWith(search)).toBe(true);
+		list.push(item);
+
+		expect(list.head).toBe(item);
+		expect(list.tail).toBe(item);
+
+		expect(item.next).toBe(null);
+		expect(item.prev).toBe(null);
 	});
 
 	it("Тест 2", () => {
-		const string = "Hello world!";
-		const search = "hello";
+		const list = createList();
+		const item1 = createItem("item1");
+		const item2 = createItem("item2");
 
-		expect(startsWith(string, search)).toBe(false);
-		expect(string.startsWith(search)).toBe(false);
+		list.push(item1);
+		list.push(item2);
+
+		expect(list.head).toBe(item1);
+		expect(list.tail).toBe(item2);
+
+		expect(item1.next).toBe(item2);
+		expect(item1.prev).toBe(null);
+
+		expect(item2.next).toBe(null);
+		expect(item2.prev).toBe(item1);
 	});
 
 	it("Тест 3", () => {
-		const string = "Hello world!";
-		const search = "Hello";
+		const list = createList();
 
-		expect(startsWith(string, search, 2)).toBe(false);
-		expect(string.startsWith(search, 2)).toBe(false);
-	});
+		const item1 = createItem("item1");
+		const item2 = createItem("item2");
+		const item3 = createItem("item3");
 
-	it("Тест 4", () => {
-		const string = "Hello world!";
-		const search = "world";
+		list.push(item1);
+		list.push(item2);
+		list.push(item3);
 
-		expect(startsWith(string, search)).toBe(false);
-		expect(string.startsWith(search)).toBe(false);
-	});
+		expect(list.head).toBe(item1);
+		expect(list.tail).toBe(item3);
 
-	it("Тест 5", () => {
-		const string = "Hello world!";
-		const search = "world";
+		expect(item1.next).toBe(item2);
+		expect(item1.prev).toBe(null);
 
-		expect(startsWith(string, search, 6)).toBe(true);
-		expect(string.startsWith(search, 6)).toBe(true);
+		expect(item2.next).toBe(item3);
+		expect(item2.prev).toBe(item1);
+
+		expect(item3.next).toBe(null);
+		expect(item3.prev).toBe(item2);
 	});
 });
