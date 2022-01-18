@@ -1,35 +1,52 @@
-// Напишите метод unshift для связанного списка по аналогии с методом unshift у класса Array (у массива).
-// Метод unshift должен добавить 1 элемент в начало списка.
+// Напишите метод pop для связанного списка по аналогии с методом pop у класса Array (у массива).
+// Метод pop должен удалять 1 элемент из конца списка и возвращать его.
 // Подсказка: в тестах можно увидеть много подсказок к реализации метода.
-// Примечание: постарайтесь написать метод unshift самостоятельно.
-
-// https://school.constcode.ru/problem/solver/63
+// Примечание: постарайтесь написать метод pop самостоятельно.
 
 function createList() {
-  return {
-    head: null,
-    tail: null,
+	return {
+		head: null,
+		tail: null,
 
-    unshift(item) {
-      if (this.head === null && this.tail === null) {
-        this.head = item;
-        this.tail = item;
-        return;
-      }
-      item.prev = null;
-			item.next = this.head;
-			this.head.prev = item;
-			this.head = item;
-    },
-  };
+		push(item) {
+			if (!this.tail) {
+				this.head = item;
+				this.tail = item;
+				return;
+			}
+
+			this.tail.next = item;
+			item.prev = this.tail;
+			this.tail = item;
+		},
+
+		pop() {
+			const pop_element = this.tail;
+			if (!this.tail) {
+				return;
+			} 
+			if (this.head === this.tail) {				
+				this.head = null;
+				this.tail = null;
+				return pop_element;
+			}
+			
+			this.tail = pop_element.prev;
+			this.tail.next = null;
+
+			pop_element.next = null;
+			pop_element.prev = null;
+			return pop_element;
+		},
+	};
 }
 
 function createItem(value) {
-  return {
-    next: null,
-    prev: null,
-    value,
-  };
+	return {
+		next: null,
+		prev: null,
+		value,
+	};
 }
 
 module.exports = {
