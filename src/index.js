@@ -1,23 +1,25 @@
-// Напишите метод push для связанного списка по аналогии с методом push у класса Array (у массива).
-// Метод push должен добавить 1 элемент в конец списка.
+// Напишите метод unshift для связанного списка по аналогии с методом unshift у класса Array (у массива).
+// Метод unshift должен добавить 1 элемент в начало списка.
 // Подсказка: в тестах можно увидеть много подсказок к реализации метода.
-// Примечание: постарайтесь написать метод push самостоятельно.
+// Примечание: постарайтесь написать метод unshift самостоятельно.
+
+// https://school.constcode.ru/problem/solver/63
 
 function createList() {
   return {
     head: null,
     tail: null,
 
-    push(item) {
-      if (this.head === null && this.tail === null){
+    unshift(item) {
+      if (this.head === null && this.tail === null) {
         this.head = item;
         this.tail = item;
-        return
+        return;
       }
-      
-      this.tail.next = item;
-      item.prev = this.tail;
-      this.tail = item;
+      item.prev = null;
+			item.next = this.head;
+			this.head.prev = item;
+			this.head = item;
     },
   };
 }

@@ -1,11 +1,11 @@
 const { createItem, createList } = require('../src/index');
 
-describe("Тестирование метода push", () => {
+describe("Тестирование метода unshift", () => {
 	it("Тест 1", () => {
 		const list = createList();
 		const item = createItem("item");
 
-		list.push(item);
+		list.unshift(item);
 
 		expect(list.head).toBe(item);
 		expect(list.tail).toBe(item);
@@ -19,8 +19,8 @@ describe("Тестирование метода push", () => {
 		const item1 = createItem("item1");
 		const item2 = createItem("item2");
 
-		list.push(item1);
-		list.push(item2);
+		list.unshift(item2);
+		list.unshift(item1);
 
 		expect(list.head).toBe(item1);
 		expect(list.tail).toBe(item2);
@@ -39,9 +39,9 @@ describe("Тестирование метода push", () => {
 		const item2 = createItem("item2");
 		const item3 = createItem("item3");
 
-		list.push(item1);
-		list.push(item2);
-		list.push(item3);
+		list.unshift(item3);
+		list.unshift(item2);
+		list.unshift(item1);
 
 		expect(list.head).toBe(item1);
 		expect(list.tail).toBe(item3);
