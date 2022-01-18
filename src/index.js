@@ -1,7 +1,7 @@
-// Напишите метод pop для связанного списка по аналогии с методом pop у класса Array (у массива).
-// Метод pop должен удалять 1 элемент из конца списка и возвращать его.
+// Напишите метод shift для связанного списка по аналогии с методом shift у класса Array (у массива).
+// Метод shift должен удалять 1 элемент из начала списка и возвращать его.
 // Подсказка: в тестах можно увидеть много подсказок к реализации метода.
-// Примечание: постарайтесь написать метод pop самостоятельно.
+// Примечание: постарайтесь написать метод shift самостоятельно.
 
 function createList() {
 	return {
@@ -19,9 +19,8 @@ function createList() {
 			item.prev = this.tail;
 			this.tail = item;
 		},
-
-		pop() {
-			const pop_element = this.tail;
+		shift()  {
+			const pop_element = this.head;
 			if (!this.tail) {
 				return;
 			} 
@@ -31,11 +30,11 @@ function createList() {
 				return pop_element;
 			}
 			
-			this.tail = pop_element.prev;
-			this.tail.next = null;
-
+			this.head = pop_element.next;
+			this.head.prev = null;
 			pop_element.next = null;
 			pop_element.prev = null;
+
 			return pop_element;
 		},
 	};
