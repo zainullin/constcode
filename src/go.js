@@ -1,49 +1,63 @@
-function getGraphFromAM(am) {
-  // const graph = {
-  //   nodes: [0, 1, 2, 3],
-  //   edges: [
-  //     [0, 1],
-  //     [0, 2],
-  //     [0, 3],
-  //     [1, 2],
-  //   ],
-  // };
-
-  // const am = [
-  //   [0, 1, 1, 1],
-  //   [1, 0, 1, 0],
-  //   [1, 1, 0, 0],
-  //   [1, 0, 0, 0],
-  // ];
-  // подсчитаем количество узлов
-  const nodeNumber = am.length;
-  const graph = {
-      nodes: [],
-      edges: [],
-  };
-  for (let i = 0; i < nodeNumber; i += 1) {
-    graph.nodes.push(i);
+function forEach(arr, fn1, thisArg = null) {
+  const fn = fn1.bind(thisArg);
+  const result = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    result.push(fn(arr[i], i, arr));
   }
-  for (let i = 0; i < am.length; i += 1) {
-    for (let j = i; j < am.length; j += 1) {
-      if (am[i][j] === 1) {
-        const tmp = [];
-        tmp.push(i);
-        tmp.push(j);
-        graph.edges.push(tmp);
-      }
-    }  
-  }
-
-  return graph;
+  return result;
 }
-  const am = [
-    [0, 1, 1, 1],
-    [1, 0, 1, 0],
-    [1, 1, 0, 0],
-    [1, 0, 0, 0],
-  ];
-const graph = getGraphFromAM(am);
 
-console.log({ graph});
+const users = [
+  { id: 13, name: 'Алексей' },
+  { id: 15, name: 'Сергей' },
+  { id: 2, name: 'Тимофей' },
+];
 
+const names1 = [];
+const ids1 = [];
+
+forEach(
+  users,
+  function (item) {
+    names1.push(item[this.key]);
+  },
+  { key: 'name' },
+);
+
+forEach(
+  users,
+  function (item) {
+    ids1.push(item[this.key]);
+  },
+  { key: 'id' },
+);
+console.log({ names1 });
+
+// expect(names1).toEqual(["Алексей", "Сергей", "Тимофей"]);
+// expect(ids1).toEqual([13, 15, 2]);
+
+const names2 = [];
+const ids2 = [];
+
+users.forEach(
+  function (item) {
+    names2.push(item[this.key]);
+  },
+  { key: 'name' },
+);
+
+users.forEach(
+  function (item) {
+    ids2.push(item[this.key]);
+  },
+  { key: 'id' },
+);
+
+// expect(names2).toEqual(["Алексей", "Сергей", "Тимофей"]);
+// expect(ids2).toEqual([13, 15, 2]);
+
+// expect(users).toEqual([
+//   { id: 13, name: "Алексей" },
+//   { id: 15, name: "Сергей" },
+//   { id: 2, name: "Тимофей" },
+// ]);

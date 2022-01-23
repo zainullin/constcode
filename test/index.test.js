@@ -1,60 +1,101 @@
-const { getGraphFromAM } = require('../src/index');
+const { forEach } = require('../src/index');
 
-describe("Тестирование функции getGraphFromAM", () => {
+describe("Тестирование метода Array.prototype.forEach", () => {
 	it("Тест 1", () => {
-		const graph = {
-			nodes: [0, 1, 2, 3],
-			edges: [],
-		};
+		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		const am = [
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-			[0, 0, 0, 0],
-		];
+		const buff1 = [];
+		const buff2 = [];
 
-		expect(getGraphFromAM(am)).toEqual(graph);
+		forEach(numbers, (x) => buff1.push(x));
+		numbers.forEach((x) => buff2.push(x));
+
+		expect(buff1).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
+		expect(buff2).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
+		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 
 	it("Тест 2", () => {
-		const graph = {
-			nodes: [0, 1, 2, 3],
-			edges: [
-				[0, 1],
-				[0, 2],
-				[0, 3],
-				[1, 2],
-			],
-		};
+		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		const am = [
-			[0, 1, 1, 1],
-			[1, 0, 1, 0],
-			[1, 1, 0, 0],
-			[1, 0, 0, 0],
-		];
+		const buff1 = [];
+		const buff2 = [];
 
-		expect(getGraphFromAM(am)).toEqual(graph);
+		forEach(numbers, (x, i) => buff1.push(x + i));
+		numbers.forEach((x, i) => buff2.push(x + i));
+
+		expect(buff1).toEqual([1, 6, 11, 3, 5, 6, 8, 14, 17]);
+		expect(buff2).toEqual([1, 6, 11, 3, 5, 6, 8, 14, 17]);
+		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 
 	it("Тест 3", () => {
-		const graph = {
-			nodes: [0, 1, 2, 3],
-			edges: [
-				[0, 1],
-				[0, 2],
-				[2, 3],
-			],
-		};
+		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		const am = [
-			[0, 1, 1, 0],
-			[1, 0, 0, 0],
-			[1, 0, 0, 1],
-			[0, 0, 1, 0],
+		forEach(numbers, (_, __, array) => {
+			expect(array).toBe(numbers);
+		});
+
+		numbers.forEach((_, __, array) => {
+			expect(array).toBe(numbers);
+		});
+
+		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
+	});
+
+	it("Тест 4", () => {
+		const users = [
+			{ id: 13, name: "Алексей" },
+			{ id: 15, name: "Сергей" },
+			{ id: 2, name: "Тимофей" },
 		];
 
-		expect(getGraphFromAM(am)).toEqual(graph);
+		const names1 = [];
+		const ids1 = [];
+
+		forEach(
+			users,
+			function (item) {
+				names1.push(item[this.key]);
+			},
+			{ key: "name" }
+		);
+
+		forEach(
+			users,
+			function (item) {
+				ids1.push(item[this.key]);
+			},
+			{ key: "id" }
+		);
+
+		expect(names1).toEqual(["Алексей", "Сергей", "Тимофей"]);
+		expect(ids1).toEqual([13, 15, 2]);
+
+		const names2 = [];
+		const ids2 = [];
+
+		users.forEach(
+			function (item) {
+				names2.push(item[this.key]);
+			},
+			{ key: "name" }
+		);
+
+		users.forEach(
+			function (item) {
+				ids2.push(item[this.key]);
+			},
+			{ key: "id" }
+		);
+
+		expect(names2).toEqual(["Алексей", "Сергей", "Тимофей"]);
+		expect(ids2).toEqual([13, 15, 2]);
+
+		expect(users).toEqual([
+			{ id: 13, name: "Алексей" },
+			{ id: 15, name: "Сергей" },
+			{ id: 2, name: "Тимофей" },
+		]);
 	});
 });
