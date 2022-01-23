@@ -1,44 +1,46 @@
-const { forEach } = require('../src/index');
+const { some } = require('../src/index');
 
-describe("Тестирование метода Array.prototype.forEach", () => {
+describe("Тестирование метода Array.prototype.some", () => {
 	it("Тест 1", () => {
 		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		const buff1 = [];
-		const buff2 = [];
+		expect(some(numbers, (x) => x > 5)).toBe(true);
+		expect(some(numbers, (x) => x < -5)).toBe(false);
+		expect(some(numbers, (x) => x === 0)).toBe(true);
+		expect(some(numbers, (x) => x === 10)).toBe(false);
 
-		forEach(numbers, (x) => buff1.push(x));
-		numbers.forEach((x) => buff2.push(x));
+		expect(numbers.some((x) => x > 5)).toBe(true);
+		expect(numbers.some((x) => x < -5)).toBe(false);
+		expect(numbers.some((x) => x === 0)).toBe(true);
+		expect(numbers.some((x) => x === 10)).toBe(false);
 
-		expect(buff1).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
-		expect(buff2).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 
 	it("Тест 2", () => {
 		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		const buff1 = [];
-		const buff2 = [];
+		expect(some(numbers, (x, i) => i > x)).toBe(true);
+		expect(some(numbers, (x, i) => i < x)).toBe(true);
+		expect(some(numbers, (x, i) => i === x)).toBe(true);
+		expect(some(numbers, (x, i) => i === 2 * x)).toBe(false);
 
-		forEach(numbers, (x, i) => buff1.push(x + i));
-		numbers.forEach((x, i) => buff2.push(x + i));
+		expect(numbers.some((x, i) => i > x)).toBe(true);
+		expect(numbers.some((x, i) => i < x)).toBe(true);
+		expect(numbers.some((x, i) => i === x)).toBe(true);
+		expect(numbers.some((x, i) => i === 2 * x)).toBe(false);
 
-		expect(buff1).toEqual([1, 6, 11, 3, 5, 6, 8, 14, 17]);
-		expect(buff2).toEqual([1, 6, 11, 3, 5, 6, 8, 14, 17]);
 		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
 
 	it("Тест 3", () => {
 		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		forEach(numbers, (_, __, array) => {
-			expect(array).toBe(numbers);
-		});
+		expect(some(numbers, (x, i, array) => array[i] === 2 * x)).toBe(true);
+		expect(some(numbers, (x, i, array) => array[i] === x - 5)).toBe(false);
 
-		numbers.forEach((_, __, array) => {
-			expect(array).toBe(numbers);
-		});
+		expect(numbers.some((x, i, array) => array[i] === 2 * x)).toBe(true);
+		expect(numbers.some((x, i, array) => array[i] === x - 5)).toBe(false);
 
 		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
@@ -50,47 +52,51 @@ describe("Тестирование метода Array.prototype.forEach", () => 
 			{ id: 2, name: "Тимофей" },
 		];
 
-		const names1 = [];
-		const ids1 = [];
+		expect(
+			some(
+				users,
+				function (user) {
+					return user.name === this.name;
+				},
+				{
+					name: "Алексей",
+				}
+			)
+		).toBe(true);
 
-		forEach(
-			users,
-			function (item) {
-				names1.push(item[this.key]);
-			},
-			{ key: "name" }
-		);
+		expect(
+			some(
+				users,
+				function (user) {
+					return user.name === this.name;
+				},
+				{
+					name: "Татьяна",
+				}
+			)
+		).toBe(false);
 
-		forEach(
-			users,
-			function (item) {
-				ids1.push(item[this.key]);
-			},
-			{ key: "id" }
-		);
+		expect(
+			users.some(
+				function (user) {
+					return user.name === this.name;
+				},
+				{
+					name: "Алексей",
+				}
+			)
+		).toBe(true);
 
-		expect(names1).toEqual(["Алексей", "Сергей", "Тимофей"]);
-		expect(ids1).toEqual([13, 15, 2]);
-
-		const names2 = [];
-		const ids2 = [];
-
-		users.forEach(
-			function (item) {
-				names2.push(item[this.key]);
-			},
-			{ key: "name" }
-		);
-
-		users.forEach(
-			function (item) {
-				ids2.push(item[this.key]);
-			},
-			{ key: "id" }
-		);
-
-		expect(names2).toEqual(["Алексей", "Сергей", "Тимофей"]);
-		expect(ids2).toEqual([13, 15, 2]);
+		expect(
+			users.some(
+				function (user) {
+					return user.name === this.name;
+				},
+				{
+					name: "Татьяна",
+				}
+			)
+		).toBe(false);
 
 		expect(users).toEqual([
 			{ id: 13, name: "Алексей" },
