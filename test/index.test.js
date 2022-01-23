@@ -1,6 +1,6 @@
-const { getAdjacencyMatrix } = require('../src/index');
+const { getGraphFromAM } = require('../src/index');
 
-describe("Тестирование функции getAdjacencyMatrix", () => {
+describe("Тестирование функции getGraphFromAM", () => {
 	it("Тест 1", () => {
 		const graph = {
 			nodes: [0, 1, 2, 3],
@@ -14,7 +14,7 @@ describe("Тестирование функции getAdjacencyMatrix", () => {
 			[0, 0, 0, 0],
 		];
 
-		expect(getAdjacencyMatrix(graph)).toEqual(am);
+		expect(getGraphFromAM(am)).toEqual(graph);
 	});
 
 	it("Тест 2", () => {
@@ -35,7 +35,7 @@ describe("Тестирование функции getAdjacencyMatrix", () => {
 			[1, 0, 0, 0],
 		];
 
-		expect(getAdjacencyMatrix(graph)).toEqual(am);
+		expect(getGraphFromAM(am)).toEqual(graph);
 	});
 
 	it("Тест 3", () => {
@@ -55,27 +55,6 @@ describe("Тестирование функции getAdjacencyMatrix", () => {
 			[0, 0, 1, 0],
 		];
 
-		expect(getAdjacencyMatrix(graph)).toEqual(am);
-	});
-
-	it("Тест 4", () => {
-		const graph = {
-			nodes: ["Москва", "Питер", "Омск", "Звенигород"],
-			edges: [
-				["Москва", "Питер"],
-				["Москва", "Омск"],
-				["Москва", "Звенигород"],
-				["Питер", "Омск"],
-			],
-		};
-
-		const am = [
-			[0, 1, 1, 1],
-			[1, 0, 1, 0],
-			[1, 1, 0, 0],
-			[1, 0, 0, 0],
-		];
-
-		expect(getAdjacencyMatrix(graph)).toEqual(am);
+		expect(getGraphFromAM(am)).toEqual(graph);
 	});
 });

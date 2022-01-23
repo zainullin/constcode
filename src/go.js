@@ -1,52 +1,49 @@
-function getAdjacencyMatrix(graph) {
-  const { nodes, edges } = graph;
-  // причешем входные данные
-  const map = new Map();
-  for (let i = 0; i < nodes.length; i += 1) {
-    map.set(nodes[i], i);
+function getGraphFromAM(am) {
+  // const graph = {
+  //   nodes: [0, 1, 2, 3],
+  //   edges: [
+  //     [0, 1],
+  //     [0, 2],
+  //     [0, 3],
+  //     [1, 2],
+  //   ],
+  // };
+
+  // const am = [
+  //   [0, 1, 1, 1],
+  //   [1, 0, 1, 0],
+  //   [1, 1, 0, 0],
+  //   [1, 0, 0, 0],
+  // ];
+  // подсчитаем количество узлов
+  const nodeNumber = am.length;
+  const graph = {
+      nodes: [],
+      edges: [],
+  };
+  for (let i = 0; i < nodeNumber; i += 1) {
+    graph.nodes.push(i);
   }
-  for (let i = 0; i < edges.length; i += 1) {
-    for (let j = 0; j < 2; j += 1) {
-      edges[i][j] = map.get(edges[i][j]);
-    }
+  for (let i = 0; i < am.length; i += 1) {
+    for (let j = i; j < am.length; j += 1) {
+      if (am[i][j] === 1) {
+        const tmp = [];
+        tmp.push(i);
+        tmp.push(j);
+        graph.edges.push(tmp);
+      }
+    }  
   }
 
-  // узнаем количество узлов
-  const nodeNumber = nodes.length;
-  // создадим матрицу смежности размером nodeNumber на nodeNumber
-  const adjacency_matrix = [];
-  for (let i = 0; i < nodeNumber; i += 1) {
-    adjacency_matrix[i] = [];
-  }
-
-  for (let i = 0; i < nodeNumber; i += 1) {
-    for (let j = 0; j < nodeNumber; j += 1) {
-      adjacency_matrix[i][j] = 0;
-    }
-  }
-  for (let i = 0; i < edges.length; i += 1) {
-    let [ x, y ] =  edges[i];
-    adjacency_matrix[x][y] = 1;
-    adjacency_matrix[y][x] = 1;
-  }
-  return adjacency_matrix;
+  return graph;
 }
+  const am = [
+    [0, 1, 1, 1],
+    [1, 0, 1, 0],
+    [1, 1, 0, 0],
+    [1, 0, 0, 0],
+  ];
+const graph = getGraphFromAM(am);
 
-const graph = {
-  nodes: ["Москва", "Питер", "Омск", "Звенигород"],
-  edges: [
-    ["Москва", "Питер"],
-    ["Москва", "Омск"],
-    ["Москва", "Звенигород"],
-    ["Питер", "Омск"],
-  ],
-};
+console.log({ graph});
 
-const am = [
-  [0, 1, 1, 1],
-  [1, 0, 1, 0],
-  [1, 1, 0, 0],
-  [1, 0, 0, 0],
-];
-
-console.log(getAdjacencyMatrix(graph));

@@ -1,39 +1,31 @@
-// Напишите функцию getAdjacencyMatrix, которая принимает граф и возвращает для этого графа матрицу смежности.
+// Напишите функцию getGraphFromAm, которая принимает матрицу смежности и возвращает для этой матрицы граф.
+// Примечание 1: массив узлов должен быть целыми числами, начиная с 0, и в порядке возрастания.
+// Примечание 2: массив ребер должен быть отсортирован по возрастанию кортежей.
 
-function getAdjacencyMatrix(graph) {
-  const { nodes, edges } = graph;
-  // причешем входные данные
-  const map = new Map();
-  for (let i = 0; i < nodes.length; i += 1) {
-    map.set(nodes[i], i);
-  }
-  for (let i = 0; i < edges.length; i += 1) {
-    for (let j = 0; j < 2; j += 1) {
-      edges[i][j] = map.get(edges[i][j]);
-    }
-  }
-
-  // узнаем количество узлов
-  const nodeNumber = nodes.length;
-  // создадим матрицу смежности размером nodeNumber на nodeNumber
-  const adjacency_matrix = [];
+function getGraphFromAM(am) {
+  // подсчитаем количество узлов
+  const nodeNumber = am.length;
+  const graph = {
+      nodes: [],
+      edges: [],
+  };
   for (let i = 0; i < nodeNumber; i += 1) {
-    adjacency_matrix[i] = [];
+    graph.nodes.push(i);
+  }
+  for (let i = 0; i < am.length; i += 1) {
+    for (let j = i; j < am.length; j += 1) {
+      if (am[i][j] === 1) {
+        const tmp = [];
+        tmp.push(i);
+        tmp.push(j);
+        graph.edges.push(tmp);
+      }
+    }  
   }
 
-  for (let i = 0; i < nodeNumber; i += 1) {
-    for (let j = 0; j < nodeNumber; j += 1) {
-      adjacency_matrix[i][j] = 0;
-    }
-  }
-  for (let i = 0; i < edges.length; i += 1) {
-    let [ x, y ] =  edges[i];
-    adjacency_matrix[x][y] = 1;
-    adjacency_matrix[y][x] = 1;
-  }
-  return adjacency_matrix;
+  return graph;
 }
 
 module.exports = {
-  getAdjacencyMatrix,
+  getGraphFromAM,
 };
