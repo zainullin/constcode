@@ -1,54 +1,39 @@
-// Напишите метод shift для связанного списка по аналогии с методом shift у класса Array (у массива).
-// Метод shift должен удалять 1 элемент из начала списка и возвращать его.
-// Подсказка: в тестах можно увидеть много подсказок к реализации метода.
-// Примечание: постарайтесь написать метод shift самостоятельно.
+// Напишите функцию getAdjacencyMatrix, которая принимает граф и возвращает для этого графа матрицу смежности.
 
-function createList() {
-	return {
-		head: null,
-		tail: null,
+function getAdjacencyMatrix(graph) {
+  const { nodes, edges } = graph;
+  // причешем входные данные
+  const map = new Map();
+  for (let i = 0; i < nodes.length; i += 1) {
+    map.set(nodes[i], i);
+  }
+  for (let i = 0; i < edges.length; i += 1) {
+    for (let j = 0; j < 2; j += 1) {
+      edges[i][j] = map.get(edges[i][j]);
+    }
+  }
 
-		push(item) {
-			if (!this.tail) {
-				this.head = item;
-				this.tail = item;
-				return;
-			}
+  // узнаем количество узлов
+  const nodeNumber = nodes.length;
+  // создадим матрицу смежности размером nodeNumber на nodeNumber
+  const adjacency_matrix = [];
+  for (let i = 0; i < nodeNumber; i += 1) {
+    adjacency_matrix[i] = [];
+  }
 
-			this.tail.next = item;
-			item.prev = this.tail;
-			this.tail = item;
-		},
-		shift()  {
-			const pop_element = this.head;
-			if (!this.tail) {
-				return;
-			} 
-			if (this.head === this.tail) {				
-				this.head = null;
-				this.tail = null;
-				return pop_element;
-			}
-			
-			this.head = pop_element.next;
-			this.head.prev = null;
-			pop_element.next = null;
-			pop_element.prev = null;
-
-			return pop_element;
-		},
-	};
-}
-
-function createItem(value) {
-	return {
-		next: null,
-		prev: null,
-		value,
-	};
+  for (let i = 0; i < nodeNumber; i += 1) {
+    for (let j = 0; j < nodeNumber; j += 1) {
+      adjacency_matrix[i][j] = 0;
+    }
+  }
+  for (let i = 0; i < edges.length; i += 1) {
+    let [ x, y ] =  edges[i];
+    adjacency_matrix[x][y] = 1;
+    adjacency_matrix[y][x] = 1;
+  }
+  return adjacency_matrix;
 }
 
 module.exports = {
-  createItem,
-  createList,
+  getAdjacencyMatrix,
 };
