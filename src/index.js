@@ -1,20 +1,17 @@
-// Перед выполнение этого задания рекомендовано ознакомиться с документацией метод Array.prototype.every:
-// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/every
-// Напишите полифил метода Array.prototype.every. В теле полифила не используйте никаких методов класса Array или других классов. Используйте только условные операторы и циклы.
+// Перед выполнение этого задания рекомендовано ознакомиться с документацией метод Array.prototype.fill:
+// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/fill
+// Напишите полифил метода Array.prototype.fill. В теле полифила не используйте никаких методов класса Array или других классов. Используйте только условные операторы и циклы.
 // В полифиле первый аргумент - это массив. Все остальные аргументы такие же как и в том же порядке, что и у одноименного метода. Т.е.:
-// array.every(callback, thisArg)  <=> every(array, callback, thisArg)
+// array.fill(value, start, end)  <=> fill(array, value, start, end)
 
-function every(arr, fn1, thisArg = null) {
-  const fn = fn1.bind(thisArg);
-  for (let i = 0; i < arr.length; i += 1) {
-    if (!fn(arr[i], i, arr)) {
-      return false;
-    }
+function fill(array, value, start = 0, end = array.length) {
+  for (let i = start; i < end; i += 1) {
+    array[i] = value;
   }
-  return true;
+  return array;
 }
 
 
 module.exports = {
-  every,
+  fill,
 };
