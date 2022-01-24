@@ -1,18 +1,14 @@
-const { some } = require('../src/index');
+const { every } = require('../src/index');
 
-describe("Тестирование метода Array.prototype.some", () => {
+describe("Тестирование метода Array.prototype.every", () => {
 	it("Тест 1", () => {
 		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		expect(some(numbers, (x) => x > 5)).toBe(true);
-		expect(some(numbers, (x) => x < -5)).toBe(false);
-		expect(some(numbers, (x) => x === 0)).toBe(true);
-		expect(some(numbers, (x) => x === 10)).toBe(false);
+		expect(every(numbers, (x) => x > 5)).toBe(false);
+		expect(every(numbers, (x) => x > -5)).toBe(true);
 
-		expect(numbers.some((x) => x > 5)).toBe(true);
-		expect(numbers.some((x) => x < -5)).toBe(false);
-		expect(numbers.some((x) => x === 0)).toBe(true);
-		expect(numbers.some((x) => x === 10)).toBe(false);
+		expect(numbers.every((x) => x > 5)).toBe(false);
+		expect(numbers.every((x) => x > -5)).toBe(true);
 
 		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
@@ -20,15 +16,11 @@ describe("Тестирование метода Array.prototype.some", () => {
 	it("Тест 2", () => {
 		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		expect(some(numbers, (x, i) => i > x)).toBe(true);
-		expect(some(numbers, (x, i) => i < x)).toBe(true);
-		expect(some(numbers, (x, i) => i === x)).toBe(true);
-		expect(some(numbers, (x, i) => i === 2 * x)).toBe(false);
+		expect(every(numbers, (x, i) => x > i)).toBe(false);
+		expect(every(numbers, (x, i) => x + i >= 1)).toBe(true);
 
-		expect(numbers.some((x, i) => i > x)).toBe(true);
-		expect(numbers.some((x, i) => i < x)).toBe(true);
-		expect(numbers.some((x, i) => i === x)).toBe(true);
-		expect(numbers.some((x, i) => i === 2 * x)).toBe(false);
+		expect(numbers.every((x, i) => x > i)).toBe(false);
+		expect(numbers.every((x, i) => x + i >= 1)).toBe(true);
 
 		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
@@ -36,11 +28,11 @@ describe("Тестирование метода Array.prototype.some", () => {
 	it("Тест 3", () => {
 		const numbers = [1, 5, 9, 0, 1, 1, 2, 7, 9];
 
-		expect(some(numbers, (x, i, array) => array[i] === 2 * x)).toBe(true);
-		expect(some(numbers, (x, i, array) => array[i] === x - 5)).toBe(false);
+		expect(every(numbers, (x, i, array) => array[i] === x)).toBe(true);
+		expect(every(numbers, (x, i, array) => array[i] < x)).toBe(false);
 
-		expect(numbers.some((x, i, array) => array[i] === 2 * x)).toBe(true);
-		expect(numbers.some((x, i, array) => array[i] === x - 5)).toBe(false);
+		expect(numbers.every((x, i, array) => array[i] === x)).toBe(true);
+		expect(numbers.every((x, i, array) => array[i] < x)).toBe(false);
 
 		expect(numbers).toEqual([1, 5, 9, 0, 1, 1, 2, 7, 9]);
 	});
@@ -53,48 +45,40 @@ describe("Тестирование метода Array.prototype.some", () => {
 		];
 
 		expect(
-			some(
+			every(
 				users,
 				function (user) {
-					return user.name === this.name;
+					return this.minId <= user.id && user.id <= this.maxId;
 				},
-				{
-					name: "Алексей",
-				}
+				{ minId: 1, maxId: 100 }
 			)
 		).toBe(true);
 
 		expect(
-			some(
+			every(
 				users,
 				function (user) {
-					return user.name === this.name;
+					return this.minId <= user.id && user.id <= this.maxId;
 				},
-				{
-					name: "Татьяна",
-				}
+				{ minId: 10, maxId: 22 }
 			)
 		).toBe(false);
 
 		expect(
-			users.some(
+			users.every(
 				function (user) {
-					return user.name === this.name;
+					return this.minId <= user.id && user.id <= this.maxId;
 				},
-				{
-					name: "Алексей",
-				}
+				{ minId: 1, maxId: 100 }
 			)
 		).toBe(true);
 
 		expect(
-			users.some(
+			users.every(
 				function (user) {
-					return user.name === this.name;
+					return this.minId <= user.id && user.id <= this.maxId;
 				},
-				{
-					name: "Татьяна",
-				}
+				{ minId: 10, maxId: 22 }
 			)
 		).toBe(false);
 
