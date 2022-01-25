@@ -1,46 +1,74 @@
-const { reduce } = require('../src/index');
+const { createList, createItem } = require('../src/index');
 
-describe("Тестирование метода Array.prototype.reduce", () => {
+describe("Тестирование метода getSize", () => {
 	it("Тест 1", () => {
-		const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-		const getSum = (a, b) => a + b;
+		const list = createList();
 
-		expect(reduce(numbers, getSum)).toBe(55);
-		expect(numbers).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-		expect(numbers.reduce(getSum)).toBe(55);
+		expect(list.getSize()).toBe(0);
+
+		expect(list.head).toBe(null);
+		expect(list.tail).toBe(null);
 	});
 
 	it("Тест 2", () => {
-		const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-		const getSum = (a, b) => a + b;
+		const list = createList();
+		const item = createItem("item");
 
-		expect(reduce(numbers, getSum, 1000)).toBe(1055);
-		expect(numbers).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-		expect(numbers.reduce(getSum, 1000)).toBe(1055);
+		list.push(item);
+
+		expect(list.getSize()).toBe(1);
+
+		expect(list.head).toBe(item);
+		expect(list.tail).toBe(item);
+
+		expect(item.next).toBe(null);
+		expect(item.prev).toBe(null);
 	});
 
 	it("Тест 3", () => {
-		const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-		const getSum = (a, b, i) => a + b + i;
+		const list = createList();
 
-		expect(reduce(numbers, getSum)).toBe(100);
-		expect(numbers).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-		expect(numbers.reduce(getSum)).toBe(100);
+		const item1 = createItem("item1");
+		const item2 = createItem("item2");
+		const item3 = createItem("item3");
+		const item4 = createItem("item4");
+
+		list.push(item1);
+		list.push(item2);
+		list.push(item3);
+		list.push(item4);
+
+		expect(list.getSize()).toBe(4);
+
+		expect(list.head).toBe(item1);
+		expect(list.tail).toBe(item4);
+
+		expect(item1.next).toBe(item2);
+		expect(item1.prev).toBe(null);
+
+		expect(item2.next).toBe(item3);
+		expect(item2.prev).toBe(item1);
+
+		expect(item3.next).toBe(item4);
+		expect(item3.prev).toBe(item2);
+
+		expect(item4.next).toBe(null);
+		expect(item4.prev).toBe(item3);
 	});
 
 	it("Тест 4", () => {
-		const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-		const getSum = (a, b, i, array) =>
-			a + b + i + array[array.length - 1 - i];
+		const list = createList();
 
-		expect(reduce(numbers, getSum)).toBe(145);
-		expect(numbers).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-		expect(numbers.reduce(getSum)).toBe(145);
-	});
+		for (let i = 0; i < 1000; i++) {
+			expect(list.getSize()).toBe(i);
 
-	it("Тест 5", () => {
-		expect(() => reduce([], () => {})).toThrowError(
-			new TypeError("Reduce of empty array with no initial value")
-		);
+			list.push(createItem(`item${i + 1}`));
+		}
+
+		expect(list.head.value).toBe("item1");
+		expect(list.tail.value).toBe("item1000");
+
+		expect(list.head.next.value).toBe("item2");
+		expect(list.tail.prev.value).toBe("item999");
 	});
 });

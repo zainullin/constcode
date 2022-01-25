@@ -1,22 +1,53 @@
-function reduce(array, callback, initialValue) {
-  if (array.length === 0 && initialValue === undefined) {
-    throw new TypeError("Reduce of empty array with no initial value");
-  }
-  let result = (initialValue === undefined)?  array[0] : initialValue;
-  let i =  (initialValue === undefined)?  1 : 0;
-  for (; i < array.length; i += 1) {
-    // (a, b, i, array) 
-    result = callback(result, array[i], i, array);
-  }
-  return result;
+function createList() {
+	return {
+		head: null,
+		tail: null,
+
+		push(item) {
+			if (!this.tail) {
+				this.head = item;
+				this.tail = item;
+				return;
+			}
+
+			this.tail.next = item;
+			item.prev = this.tail;
+			this.tail = item;
+		},
+
+		getSize() {
+      let count = 0;
+      let curr = this.head;
+      if (curr == null) return count;
+      while(count++, curr.next !== null) {
+        curr = curr.next;
+      }
+      return count;
+		},
+	};
 }
-const numbers = [];
-const getSum = (a, b) => a + b;
 
-console.log(numbers.reduce(getSum), reduce(numbers, getSum));
+function createItem(value) {
+	return {
+		next: null,
+		prev: null,
+		value,
+	};
+}
 
-// it("Тест 5", () => {
-//   expect(() => reduce([], () => {})).toThrowError(
-//     new TypeError("Reduce of empty array with no initial value")
-//   );
-// });
+
+const list = createList();
+
+const item1 = createItem("item1");
+const item2 = createItem("item2");
+const item3 = createItem("item3");
+const item4 = createItem("item4");
+
+list.push(item1);
+list.push(item2);
+list.push(item3);
+list.push(item4);
+
+console.log(list.getSize());
+
+// expect(list.getSize()).toBe(4);
