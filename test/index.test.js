@@ -1,10 +1,11 @@
 const { createList, createItem } = require('../src/index');
 
-describe("Тестирование метода getSize", () => {
+describe("Тестирование метода includes", () => {
 	it("Тест 1", () => {
 		const list = createList();
+		const item = createItem("item");
 
-		expect(list.getSize()).toBe(0);
+		expect(list.includes(item)).toBe(false);
 
 		expect(list.head).toBe(null);
 		expect(list.tail).toBe(null);
@@ -16,7 +17,7 @@ describe("Тестирование метода getSize", () => {
 
 		list.push(item);
 
-		expect(list.getSize()).toBe(1);
+		expect(list.includes(item)).toBe(true);
 
 		expect(list.head).toBe(item);
 		expect(list.tail).toBe(item);
@@ -32,13 +33,18 @@ describe("Тестирование метода getSize", () => {
 		const item2 = createItem("item2");
 		const item3 = createItem("item3");
 		const item4 = createItem("item4");
+		const item5 = createItem("item5");
 
 		list.push(item1);
 		list.push(item2);
 		list.push(item3);
 		list.push(item4);
 
-		expect(list.getSize()).toBe(4);
+		expect(list.includes(item1)).toBe(true);
+		expect(list.includes(item2)).toBe(true);
+		expect(list.includes(item3)).toBe(true);
+		expect(list.includes(item4)).toBe(true);
+		expect(list.includes(item5)).toBe(false);
 
 		expect(list.head).toBe(item1);
 		expect(list.tail).toBe(item4);
@@ -54,21 +60,8 @@ describe("Тестирование метода getSize", () => {
 
 		expect(item4.next).toBe(null);
 		expect(item4.prev).toBe(item3);
-	});
 
-	it("Тест 4", () => {
-		const list = createList();
-
-		for (let i = 0; i < 1000; i++) {
-			expect(list.getSize()).toBe(i);
-
-			list.push(createItem(`item${i + 1}`));
-		}
-
-		expect(list.head.value).toBe("item1");
-		expect(list.tail.value).toBe("item1000");
-
-		expect(list.head.next.value).toBe("item2");
-		expect(list.tail.prev.value).toBe("item999");
+		expect(item5.next).toBe(null);
+		expect(item5.prev).toBe(null);
 	});
 });

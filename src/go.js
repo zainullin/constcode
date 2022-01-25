@@ -15,14 +15,14 @@ function createList() {
 			this.tail = item;
 		},
 
-		getSize() {
-      let count = 0;
+		includes(item) {
       let curr = this.head;
-      if (curr == null) return count;
-      while(count++, curr.next !== null) {
+      if (curr === null) return false;
+      while(curr !== null){
+        if (curr === item) return true;
         curr = curr.next;
       }
-      return count;
+      return false;
 		},
 	};
 }
@@ -37,17 +37,9 @@ function createItem(value) {
 
 
 const list = createList();
+const item = createItem("item");
 
-const item1 = createItem("item1");
-const item2 = createItem("item2");
-const item3 = createItem("item3");
-const item4 = createItem("item4");
+list.push(item);
 
-list.push(item1);
-list.push(item2);
-list.push(item3);
-list.push(item4);
-
-console.log(list.getSize());
-
-// expect(list.getSize()).toBe(4);
+// expect(list.includes(item)).toBe(true);
+console.log(list.includes(item));

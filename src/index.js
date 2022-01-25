@@ -1,12 +1,7 @@
-
-// Напишите метод getSize - который возвращает число равное количеству элементов в списке.
-// Пример:
-// const list = createList();
-// console.log(list.getSize()); // 0
-// list.push(createItem());
-// console.log(list.getSize()); // 1
-// list.push(createItem());
-// console.log(list.getSize()); // 2
+// Напишите метод includes для связанного списка по аналогии с методом includes у класса Array (у массива).
+// Метод includes принимает 1 аргумент: элемент - и возвращает true если элемент присутствует в списке, а иначе возвращает false.
+// Подсказка: в тестах можно увидеть много подсказок к реализации метода.
+// Примечание: постарайтесь написать метод includes самостоятельно.
 
 function createList() {
 	return {
@@ -25,14 +20,14 @@ function createList() {
 			this.tail = item;
 		},
 
-		getSize() {
-      let count = 0;
+		includes(item) {
       let curr = this.head;
-      if (curr == null) return count;
-      while(count++, curr.next !== null) {
+      if (curr === null) return false;
+      while(curr !== null){
+        if (curr === item) return true;
         curr = curr.next;
       }
-      return count;
+      return false;
 		},
 	};
 }
