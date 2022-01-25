@@ -38,9 +38,9 @@ describe("Тестирование метода Array.prototype.reduce", () => {
 		expect(numbers.reduce(getSum)).toBe(145);
 	});
 
-	// it("Тест 5", () => {
-	// 	expect(() => reduce([], () => {})).toThrowError(
-	// 		new TypeError("Reduce of empty array with no initial value")
-	// 	);
-	// });
+	it("Тест 5", () => {
+		expect(() => reduce([], () => {})).toThrowError(
+			new TypeError("Reduce of empty array with no initial value")
+		);
+	});
 });

@@ -5,9 +5,12 @@
 // array.reduce(callback, initialValue)  <=> reduce(array, callback, initialValue)
 
 function reduce(array, callback, initialValue) {
-
-  let result = (initialValue === null) ? array[0]: initialValue;
-  for (let i = 1; i < array.length; i += 1) {
+  if (array.length === 0 && initialValue === undefined) {
+    throw new TypeError("Reduce of empty array with no initial value");
+  }
+  let result = (initialValue === undefined)?  array[0] : initialValue;
+  let i =  (initialValue === undefined)?  1 : 0;
+  for (; i < array.length; i += 1) {
     // (a, b, i, array) 
     result = callback(result, array[i], i, array);
   }
