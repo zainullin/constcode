@@ -1,6 +1,6 @@
-const { find } = require('../src/index');
+const { findIndex } = require('../src/index');
 
-describe("Тестировани метода Array.prototype.find", () => {
+describe("Тестировани метода Array.prototype.findIndex", () => {
 	const getUsers = () => [
 		{ id: 1, name: "Алексей", gender: "male" },
 		{ id: 12, name: "Татьяна", gender: "female" },
@@ -10,24 +10,24 @@ describe("Тестировани метода Array.prototype.find", () => {
 	it("Тест 1", () => {
 		const users = getUsers();
 
-		const user = find(users, (user) => user.gender === "male");
-		expect(user).toBe(users[0]);
+		const user = findIndex(users, (user) => user.gender === "male");
+		expect(user).toBe(0);
 		expect(users).toEqual(getUsers());
 	});
 
 	it("Тест 2", () => {
 		const users = getUsers();
 
-		const user = find(users, (user) => user.gender === "female");
-		expect(user).toBe(users[1]);
+		const user = findIndex(users, (user) => user.gender === "female");
+		expect(user).toBe(1);
 		expect(users).toEqual(getUsers());
 	});
 
 	it("Тест 3", () => {
 		const users = getUsers();
 
-		const user = find(users, (user) => user.id >= 18);
-		expect(user).toBe(users[2]);
+		const user = findIndex(users, (user) => user.id >= 18);
+		expect(user).toBe(2);
 		expect(users).toEqual(getUsers());
 	});
 
@@ -38,7 +38,7 @@ describe("Тестировани метода Array.prototype.find", () => {
 			name: "Света",
 		};
 
-		const user = find(
+		const user = findIndex(
 			users,
 			function (user) {
 				return user.name === this.name;
@@ -46,7 +46,7 @@ describe("Тестировани метода Array.prototype.find", () => {
 			thisArg
 		);
 
-		expect(user).toBe(users[2]);
+		expect(user).toBe(2);
 		expect(users).toEqual(getUsers());
 		expect(thisArg).toEqual({
 			name: "Света",
