@@ -1,35 +1,55 @@
-const { concat } = require('../src/index');
+const { find } = require('../src/index');
 
-describe("Тестирование метода Array.prototype.concat", () => {
+describe("Тестировани метода Array.prototype.find", () => {
+	const getUsers = () => [
+		{ id: 1, name: "Алексей", gender: "male" },
+		{ id: 12, name: "Татьяна", gender: "female" },
+		{ id: 33, name: "Света", gender: "female" },
+	];
+
 	it("Тест 1", () => {
-		const array = [1, 2, 3];
-		const result = concat(array);
+		const users = getUsers();
 
-		expect(result).toEqual([1, 2, 3]);
-		expect(array).toEqual([1, 2, 3]);
+		const user = find(users, (user) => user.gender === "male");
+		expect(user).toBe(users[0]);
+		expect(users).toEqual(getUsers());
 	});
 
 	it("Тест 2", () => {
-		const array = [1, 2, 3];
-		const result = concat(array, 4, 5, 6);
+		const users = getUsers();
 
-		expect(result).toEqual([1, 2, 3, 4, 5, 6]);
-		expect(array).toEqual([1, 2, 3]);
+		const user = find(users, (user) => user.gender === "female");
+		expect(user).toBe(users[1]);
+		expect(users).toEqual(getUsers());
 	});
 
 	it("Тест 3", () => {
-		const array = [1, 2, 3];
-		const result = concat(array, 4, [5, 6], 7);
+		const users = getUsers();
 
-		expect(result).toEqual([1, 2, 3, 4, 5, 6, 7]);
-		expect(array).toEqual([1, 2, 3]);
+		const user = find(users, (user) => user.id >= 18);
+		expect(user).toBe(users[2]);
+		expect(users).toEqual(getUsers());
 	});
 
 	it("Тест 4", () => {
-		const array = [1, 2, 3];
-		const result = concat(array, 4, [5, 6], 7, [[[8]]]);
+		const users = getUsers();
 
-		expect(result).toEqual([1, 2, 3, 4, 5, 6, 7, [[8]]]);
-		expect(array).toEqual([1, 2, 3]);
+		const thisArg = {
+			name: "Света",
+		};
+
+		const user = find(
+			users,
+			function (user) {
+				return user.name === this.name;
+			},
+			thisArg
+		);
+
+		expect(user).toBe(users[2]);
+		expect(users).toEqual(getUsers());
+		expect(thisArg).toEqual({
+			name: "Света",
+		});
 	});
 });

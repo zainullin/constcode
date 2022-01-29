@@ -1,35 +1,31 @@
-// function concat(...array) {
-//   const pull = [];
-//   const recurse = recurseMaster(array);
-//   return pull;
+const getUsers = () => [
+  { id: 1, name: 'Алексей', gender: 'male' },
+  { id: 12, name: 'Татьяна', gender: 'female' },
+  { id: 33, name: 'Света', gender: 'female' },
+];
 
-//   function recurseMaster(currArray) {
-//     if (currArray instanceof Array && array.length > 0) {
-
-//       for (let i = 0; i < currArray.length; i += 1) {
-//         recurseMaster(currArray[i]);
-//       }
-//     } else {
-//       pull.push(currArray);
-//       return currArray;
-//     }
-//   }
-// }
-
-const arr01 = [1, 2, 3];
-
-function concat(...array) {
-  const pull = []
+function find(array, callback, thisArg) {
+  const fn = callback.bind(thisArg);
   for (let i = 0; i < array.length; i += 1) {
-    if (array[i] instanceof Array && array[i].length > 0) {
-      for (let j = 0; j < array[i].length; j += 1) {
-        pull.push(array[i][j]);
-      }
-    } else {
-      pull.push(array[i]);
-    }
+    if (fn(array[i], i, thisArg)) return array[i];
   }
-  return pull;
+  return -1;
 }
 
-console.log(concat(arr01, 4, [5, 6], 7, [[[8]]]));
+const users = getUsers();
+
+const thisArg = {
+  name: 'Света',
+};
+
+const user = find(
+  users,
+  function (user) {
+    return user.name === this.name;
+  },
+  thisArg,
+);
+
+console.log(user);// .toBe(users[2]););
+// expect(users).toEqual(getUsers());
+
