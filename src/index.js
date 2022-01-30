@@ -1,18 +1,57 @@
-// Перед выполнение этого задания рекомендовано ознакомиться с документацией метод Array.prototype.findIndex:
-// https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
-// Напишите полифил метода Array.prototype.findIndex. В теле полифила не используйте никаких методов класса Array
-// или других классов. Используйте только условные операторы и циклы.
-// В полифиле первый аргумент - это массив. Все остальные аргументы такие же как и в том же порядке, что и у одноименного метода. Т.е.:
-// array.findIndex(item, thisArg)  <=> findIndex(array, item, thisArg)
+// Напишите метод getCenter для связанного списка, который возвращает:
+// null - если список пустой
+// центральный элемент - если список состоит из нечетного количества элементов
+// левый из двух центральных элементов - если список состоит из четного количества элементов
 
-function findIndex(array, callback, thisArg) {
-  const fn = callback.bind(thisArg);
-  for (let i = 0; i < array.length; i += 1) {
-    if (fn(array[i], i, thisArg)) return i;
-  }
-  return -1;
+function createList() {
+	return {
+		head: null,
+		tail: null,
+
+		push(item) {
+			if (!this.tail) {
+				this.head = item;
+				this.tail = item;
+				return;
+			}
+
+			this.tail.next = item;
+			item.prev = this.tail;
+			this.tail = item;
+		},
+
+		getCenter() {
+      if (this.head === null) {
+         return null;
+      }
+      let n = 1;
+      let curr = this.head;
+			if (curr.next === null) {
+				return curr;
+			}
+      while(curr.next !== this.tail) {
+        curr = curr.next;
+        n++;
+      }
+      let center = (n % 2 === 0)? n/2 : (n-1)/2;
+      curr = this.head;
+      while(!(center === 0)) {
+        center--;
+        curr = curr.next;
+      }
+      return curr;
+    },
+	};
+}
+
+function createItem(value) {
+	return {
+		next: null,
+		prev: null,
+		value,
+	};
 }
 
 module.exports = {
-  findIndex,
+  createList, createItem,
 };
