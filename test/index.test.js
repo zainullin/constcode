@@ -1,57 +1,51 @@
-const { splice } = require('../src/index');
+const { endsWith } = require('../src/index');
 
-describe("Тестирование метода Array.prototype.spice", () => {
+describe("Тестирование метода String.prototype.endsWith", () => {
 	it("Тест 1", () => {
-		const array = [0, 1, 2, 3, 4, 5];
+		const string = "Hello world!";
+		const search = "!";
 
-		const result = splice(array);
-
-		expect(array).toEqual([]);
-		expect(result).toEqual([0, 1, 2, 3, 4, 5]);
+		expect(endsWith(string, search)).toBe(true);
+		expect(string.endsWith(search)).toBe(true);
 	});
 
 	it("Тест 2", () => {
-		const array = [0, 1, 2, 3, 4, 5];
+		const string = "Hello world!";
+		const search = "world";
 
-		const result = splice(array, 2);
-
-		expect(array).toEqual([0, 1]);
-		expect(result).toEqual([2, 3, 4, 5]);
+		expect(endsWith(string, search)).toBe(false);
+		expect(string.endsWith(search)).toBe(false);
 	});
 
 	it("Тест 3", () => {
-		const array = [0, 1, 2, 3, 4, 5];
+		const string = "Hello world!";
+		const search = "world";
 
-		const result = splice(array, 2, 2);
-
-		expect(array).toEqual([0, 1, 4, 5]);
-		expect(result).toEqual([2, 3]);
+		expect(endsWith(string, search, 11)).toBe(true);
+		expect(string.endsWith(search, 11)).toBe(true);
 	});
 
 	it("Тест 4", () => {
-		const array = [0, 1, 2, 3, 4, 5];
+		const string = "Hello world!";
+		const search = "Hello";
 
-		const result = splice(array, 1, 4);
-
-		expect(array).toEqual([0, 5]);
-		expect(result).toEqual([1, 2, 3, 4]);
+		expect(endsWith(string, search, 11)).toBe(false);
+		expect(string.endsWith(search, 11)).toBe(false);
 	});
 
 	it("Тест 5", () => {
-		const array = [0, 1, 2, 3, 4, 5];
+		const string = "Hello world!";
+		const search = "Hello";
 
-		const result = splice(array, 1, 4, 4, 3, 2, 1);
-
-		expect(array).toEqual([0, 4, 3, 2, 1, 5]);
-		expect(result).toEqual([1, 2, 3, 4]);
+		expect(endsWith(string, search, 5)).toBe(true);
+		expect(string.endsWith(search, 5)).toBe(true);
 	});
 
-	it("Тест 5", () => {
-		const array = [0, 1, 2, 3, 4, 5];
+	it("Тест 6", () => {
+		const string = "Hello world!";
+		const search = "Hello";
 
-		const result = splice(array, 1, 4, null);
-
-		expect(array).toEqual([0, null, 5]);
-		expect(result).toEqual([1, 2, 3, 4]);
+		expect(endsWith(string, search, 2)).toBe(false);
+		expect(string.endsWith(search, 2)).toBe(false);
 	});
 });
