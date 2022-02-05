@@ -1,4 +1,7 @@
-const { indexOf } = require('../src/index');
+const { padStart } = require('../src/index');
 
-console.log(indexOf("Hello world!", "world", 1));
+const string = "Hello world!";
+const result = "121Hello world!";
+
+console.log(padStart(string, 15, "12"));
 

@@ -1,56 +1,43 @@
-const { indexOf } = require('../src/index');
+const { padStart } = require('../src/index');
 
-describe("Тестирование метода String.prototype.indexOf", () => {
+describe("Тестирование метода String.prototype.padStart", () => {
 	it("Тест 1", () => {
-		expect(indexOf("Hello world!", "Hello")).toBe(0);
-		expect("Hello world!".indexOf("Hello")).toBe(0);
+		const string = "Hello world!";
+		const result = "Hello world!";
 
-		expect(indexOf("Hello world!", "Hello", 0)).toBe(0);
-		expect("Hello world!".indexOf("Hello", 0)).toBe(0);
-
-		expect(indexOf("Hello world!", "Hello", 2)).toBe(-1);
-		expect("Hello world!".indexOf("Hello", 2)).toBe(-1);
+		expect(padStart(string, 2)).toBe(result);
+		expect(string.padStart(2)).toBe(result);
 	});
 
 	it("Тест 2", () => {
-		expect(indexOf("Hello world!", "hello")).toBe(-1);
-		expect("Hello world!".indexOf("hello")).toBe(-1);
+		const string = "Hello world!";
+		const result = "   Hello world!";
 
-		expect(indexOf("Hello world!", "hello", 0)).toBe(-1);
-		expect("Hello world!".indexOf("hello", 0)).toBe(-1);
-
-		expect(indexOf("Hello world!", "hello", 2)).toBe(-1);
-		expect("Hello world!".indexOf("hello", 2)).toBe(-1);
+		expect(padStart(string, 15)).toBe(result);
+		expect(string.padStart(15)).toBe(result);
 	});
 
 	it("Тест 3", () => {
-		expect(indexOf("Hello world!", "world")).toBe(6);
-		expect("Hello world!".indexOf("world")).toBe(6);
+		const string = "Hello world!";
+		const result = "XXXHello world!";
 
-		expect(indexOf("Hello world!", "world", -1)).toBe(6);
-		expect("Hello world!".indexOf("world", -1)).toBe(6);
-
-		expect(indexOf("Hello world!", "world", 0)).toBe(6);
-		expect("Hello world!".indexOf("world", 0)).toBe(6);
-
-		expect(indexOf("Hello world!", "world", 1)).toBe(6);
-		expect("Hello world!".indexOf("world", 1)).toBe(6);
-
-		expect(indexOf("Hello world!", "world", 5)).toBe(6);
-		expect("Hello world!".indexOf("world", 5)).toBe(6);
+		expect(padStart(string, 15, "X")).toBe(result);
+		expect(string.padStart(15, "X")).toBe(result);
 	});
 
 	it("Тест 4", () => {
-		expect(indexOf("Hello world!", "Hello world!")).toBe(0);
-		expect("Hello world!".indexOf("Hello world!")).toBe(0);
+		const string = "Hello world!";
+		const result = "121Hello world!";
 
-		expect(indexOf("Hello world!", "Hello world!", 0)).toBe(0);
-		expect("Hello world!".indexOf("Hello world!", 0)).toBe(0);
+		expect(padStart(string, 15, "12")).toBe(result);
+		expect(string.padStart(15, "12")).toBe(result);
+	});
 
-		expect(indexOf("Hello world!", "Hello world!", -1)).toBe(0);
-		expect("Hello world!".indexOf("Hello world!", -1)).toBe(0);
+	it("Тест 5", () => {
+		const string = "Hello world!";
+		const result = "123Hello world!";
 
-		expect(indexOf("Hello world!", "Hello world!", 1)).toBe(-1);
-		expect("Hello world!".indexOf("Hello world!", 1)).toBe(-1);
+		expect(padStart(string, 15, "12345")).toBe(result);
+		expect(string.padStart(15, "12345")).toBe(result);
 	});
 });
