@@ -1,43 +1,40 @@
-const { padEnd } = require('../src/index');
+const { repeat } = require('../src/index');
 
-describe("Тестирование метода String.prototype.padEnd", () => {
-	it("Тест 1", () => {
-		const string = "Hello world!";
-		const result = "Hello world!";
+describe('Тестирование метода String.prototype.repeat', () => {
+  it('Тест 1', () => {
+    expect(repeat('', 0)).toBe('');
+    expect(repeat('', 1)).toBe('');
+    expect(repeat('', 10)).toBe('');
+    expect(repeat('', 100)).toBe('');
+  });
 
-		expect(padEnd(string, 2)).toBe(result);
-		expect(string.padEnd(2)).toBe(result);
-	});
+  it('Тест 2', () => {
+    expect(repeat('!', 0)).toBe('');
+    expect(repeat('a', 0)).toBe('');
+    expect(repeat('1', 0)).toBe('');
+  });
 
-	it("Тест 2", () => {
-		const string = "Hello world!";
-		const result = "Hello world!   ";
+  it('Тест 3', () => {
+    expect(repeat('!', 1)).toBe('!');
+    expect(repeat('a', 1)).toBe('a');
+    expect(repeat('1', 1)).toBe('1');
+  });
 
-		expect(padEnd(string, 15)).toBe(result);
-		expect(string.padEnd(15)).toBe(result);
-	});
+  it("Тест 4", () => {
+  	expect(repeat("!!!", 1)).toBe("!!!");
+  	expect(repeat("aaa", 1)).toBe("aaa");
+  	expect(repeat("111", 1)).toBe("111");
+  });
 
-	it("Тест 3", () => {
-		const string = "Hello world!";
-		const result = "Hello world!XXX";
+  it("Тест 5", () => {
+  	expect(repeat("!", 3)).toBe("!!!");
+  	expect(repeat("a", 3)).toBe("aaa");
+  	expect(repeat("1", 3)).toBe("111");
+  });
 
-		expect(padEnd(string, 15, "X")).toBe(result);
-		expect(string.padEnd(15, "X")).toBe(result);
-	});
-
-	it("Тест 4", () => {
-		const string = "Hello world!";
-		const result = "Hello world!121";
-
-		expect(padEnd(string, 15, "12")).toBe(result);
-		expect(string.padEnd(15, "12")).toBe(result);
-	});
-
-	it("Тест 5", () => {
-		const string = "Hello world!";
-		const result = "Hello world!123";
-
-		expect(padEnd(string, 15, "12345")).toBe(result);
-		expect(string.padEnd(15, "12345")).toBe(result);
-	});
+  it("Тест 6", () => {
+  	expect(repeat("Hello world!", 3)).toBe(
+  		"Hello world!Hello world!Hello world!"
+  	);
+  });
 });

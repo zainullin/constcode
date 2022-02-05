@@ -1,4 +1,4 @@
-const { padEnd } = require('../src/index');
+const { repeat } = require('../src/index');
 
 
 
