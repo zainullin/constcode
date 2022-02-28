@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/zainullin/constcode/issues"
   },
-  "homepage": "https://github.com/zainullin/constcode#readme"
+  "homepage": "https://github.com/zainullin/constcode#readme",
+  "devDependencies": {
+    "jest": "^27.5.1"
+  }
 }

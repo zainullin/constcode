@@ -1,90 +1,61 @@
-// Задание 1:
-// Реализуйте недостающие методы в фабрике.
-// От мамы считаем. Муж - Малик, дети - Радик, Лена, сестра - Минжаугар, братья - Миллят, Оскар, отец - Гизатулла Кидрячев, мать - Ркия Кидрячева
+// https://school.constcode.ru/problem/solver/91
+// Напишите функцию getIntersection, которая принимает любое количество массивов (не менее 2) и возвращает новый массив из элементов,
+// которые встречаются во всех входных массивах. Функция не должна менять входные параметры.
+// Например
+// getIntersection(
+// 	[1, 2, 3, 1, 2, 3],
+// 	[1, 1, 1, 1, 1, 1]
+// ) // [1] - так как только 1 встречается в обоих массивах.
 
-const users = [
-  { id: 1, name: 'Минсарвар', surname: 'Зайнуллина', gender: 'female' },
-  { id: 2, name: 'Малик', surname: 'Зайнуллин', gender: 'male' },
-  { id: 3, name: 'Радик', surname: 'Зайнуллин', gender: 'male' },
-  { id: 4, name: 'Елена', surname: 'Спиридонова', gender: 'female' },
-  { id: 5, name: 'Минжаугар', surname: 'Усманова', gender: 'female' },
-  { id: 6, name: 'Миллят', surname: 'Кидрячев', gender: 'male' },
-  { id: 7, name: 'Оскар', surname: 'Кидрячев', gender: 'male' },
-  { id: 8, name: 'Гизатулла', surname: 'Кидрячев', gender: 'male' },
-  { id: 9, name: 'Ркия', surname: 'Кидрячева', gender: 'female' },
-  { id: 10, name: 'Маргарита', surname: 'Спасская', gender: 'female' },
-  { id: 11, name: 'Юля', surname: 'Ерофеева', gender: 'female' },
-  { id: 12, name: 'Марк', surname: 'Спиридонов', gender: 'male' },
-];
+function getIntersection(...args) {
+  // Найдем только уникальные элементы во входных массивах.
+  const set = new Set();
+  for (let i = 0; i < args.length; i++) {
+    for (let j = 0; j < args[i].length; j++) {
+      set.add(args[i][j]);
+    }
+  }
+  // Теперь все уникальные элементы из Set положим в массив
+  let arr = [...set];
+  //arr.sort((a, b) => a - b);
+  // сделаем такую структуру  Map
+  // уникальный элемент => []
+  // уникальный элемент => []
 
-const relationships = [
-  [2, 1, 'marriage'], // Малик - Минсарвар \ первый - муж, второй - жена
-  [1, 3, 'parent'], // первый - родитель, второй - ребенок
-  [2, 3, 'parent'], // первый - родитель, второй - ребенок
-  [1, 4, 'parent'], // Минсарвар - Елена  /  первый - родитель, второй - ребенок
-  [2, 4, 'parent'], // первый - родитель, второй - ребенок
-  [1, 5, 'sibling'], // первый - брат/сестра, второй - брат/сестра
-  [1, 6, 'sibling'], // первый - брат/сестра, второй - брат/сестра
-  [1, 7, 'sibling'], // первый - брат/сестра, второй - брат/сестра
-  [8, 1, 'parent'], // первый - родитель, второй - ребенок
-  [9, 1, 'parent'], // первый - родитель, второй - ребенок
-  [8, 5, 'parent'], // первый - родитель, второй - ребенок
-  [9, 5, 'parent'], // первый - родитель, второй - ребенок
-  [8, 6, 'parent'], // первый - родитель, второй - ребенок
-  [9, 6, 'parent'], // первый - родитель, второй - ребенок
-  [8, 9, 'marriage'], // первый - муж, второй - жена
-];
+  const map = new Map();
+  for (let i = 0; i < arr.length; i++) {
+    map.set(arr[i], []);
+  }
+  // чтобы понять какие элементы есть во всех входных массивах
+  // уникальный элемент => [номер массива, где есть этот элемент, номер массива, где есть этот элемент, ...]
+  for (let i = 0; i < args.length; i++) {
+    // проход по всем входным массивам
+    // в каждом массиве берем последовательно элементы и запихиваем в Map
+    for (let j = 0; j < args[i].length; j++) {
+      map.get(args[i][j]).push(i);
+    }
+  }
+  const result = [];
 
-function findUser(id) {
-  const user = users.find((user) => user.id === id);
+  map.forEach((value, key) => {
+    const set = new Set();
+    for (let i = 0; i < value.length; i++) {
+      set.add(value[i]);
+    }
+    let arr = [...set];
+    // arr.sort((a, b) => a - b);
+    map.set(key, arr);
+  });
 
-  return {
-    ...user,
+  map.forEach((value, key) => {
+    if (value.length === args.length) {
+      result.push(key);
+    }
+  });
 
-    get spouse() {
-      for (const rel of relationships) {
-        if (rel.includes(id) && rel[2] === 'marriage') {
-          const spouseId = rel[0] === id ? rel[1] : rel[0];
-          return users.find((user) => user.id === spouseId);
-        }
-      }
-    },
-
-    get parents() {
-      const result = [];
-      for (const rel of relationships) {
-        if (rel.includes(id) && rel[2] === 'parent' && rel[1] === id) {
-          const parentId = rel[0] === id ? rel[1] : rel[0];
-          result.push(users.find((user) => user.id === parentId ));
-        }
-      }
-      return result;
-    },
-
-    get children() {
-      const result = [];
-      for (const rel of relationships) {
-        if (rel.includes(id) && rel[2] === 'parent' && rel[0] === id) {
-          const parentId = rel[0] === id ? rel[1] : rel[0];
-          result.push(users.find((user) => user.id === parentId ));
-        }
-      }
-      return result;
-    },
-
-    get brothers() {
-      const result = [];
-      for (const rel of relationships) {
-        if (rel.includes(id) && rel[2] === 'sibling' && rel[0] === id) {
-          const parentId = rel[0] === id ? rel[1] : rel[0];
-          result.push(users.find((user) => user.id === parentId ));
-        }
-      }
-      return result;
-    },
-  };
+  return result;
 }
 
 module.exports = {
-  findUser,
+  getIntersection,
 };
